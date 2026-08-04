@@ -50,12 +50,12 @@ function check(name, cond, extra = '') {
 {
   const dom = await loadPage('/l1')
   const doc = dom.window.document
-  const btn = [...doc.querySelectorAll('button')].find((b) => b.textContent.includes('count'))
+  const btn = [...doc.querySelectorAll('button')].find((b) => b.textContent.includes('카운트'))
   const before = btn.textContent
   btn.dispatchEvent(new dom.window.MouseEvent('click', { bubbles: true }))
   await sleep(100)
-  check('L1 hydration: 클릭으로 count 증가', btn.textContent !== before, `${before} -> ${btn.textContent}`)
-  check('L1 hydration: hydrated 플래그 전환', doc.body.textContent.includes('hydration complete'))
+  check('L1 hydration: 클릭으로 카운트 증가', btn.textContent !== before, `${before} -> ${btn.textContent}`)
+  check('L1 hydration: 하이드레이션 완료 플래그 전환', doc.body.textContent.includes('하이드레이션 완료'))
 }
 
 // --- L2: 스트리밍 데이터가 하이드레이션 후에도 보이는가 ---

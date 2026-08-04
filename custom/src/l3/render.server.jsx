@@ -38,7 +38,7 @@ export async function renderL3({ req, res, url }) {
 
   res.setHeader('content-type', 'text/html; charset=utf-8')
   res.end(
-    chromeTop({ title: 'L3 Remix style', current: '/l3' }) +
+    chromeTop({ title: 'L3 Remix 스타일', current: '/l3' }) +
       renderToString(<App initial={payload} />) +
       chromeBottom(
         `<script>window.__PAYLOAD__ = ${embedJson(payload)}</script>` +

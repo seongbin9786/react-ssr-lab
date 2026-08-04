@@ -9,15 +9,15 @@ export function InboxLayout({ layoutData, children }) {
   const { pending } = useRouter()
   return (
     <section>
-      <h1>L3 - Remix style: router + loader/action</h1>
+      <h1>L3 - Remix 스타일: 라우터 + loader/action</h1>
       <p className="sub">
-        The server executes the <code>loader</code>s of the matched routes in parallel, embeds the data in the HTML, and mutations go through <code>action</code>s (form POST). After hydration, it switches to SPA navigation.
+        서버가 매칭된 라우트의 <code>loader</code>들을 병렬로 실행해 데이터를 HTML에 싣고, mutation은 <code>action</code>(폼 POST)으로 일어난다. 하이드레이션 이후에는 SPA 내비게이션으로 전환된다.
       </p>
       <div className="grid2">
         <aside className="card">
           <h2>
-            Inbox
-            {layoutData.unread > 0 && <span className="badge">{layoutData.unread} unread</span>}
+            받은메일함
+            {layoutData.unread > 0 && <span className="badge">{layoutData.unread} 읽지 않음</span>}
           </h2>
           <div className="maillist">
             {layoutData.mails.map((m) => (
@@ -28,7 +28,7 @@ export function InboxLayout({ layoutData, children }) {
             ))}
           </div>
           <p className="dim" style={{ marginTop: 12, fontSize: 13 }}>
-            This list is the result of the layout's <code>loader</code> running on the server.
+            이 목록은 레이아웃의 <code>loader</code>가 서버에서 실행된 결과다.
           </p>
         </aside>
         <div className={`card${pending ? ' pending' : ''}`}>{children}</div>
@@ -43,17 +43,17 @@ export function InboxLayout({ layoutData, children }) {
 export function InboxIndex({ data }) {
   return (
     <div>
-      <h2>Summary</h2>
+      <h2>요약</h2>
       <table>
         <tbody>
-          <tr><th>Total mail count</th><td>{data.stats.total}</td></tr>
-          <tr><th>Unread</th><td>{data.stats.unread}</td></tr>
-          <tr><th>Most liked</th><td>{data.stats.topSubject}</td></tr>
+          <tr><th>전체 메일 수</th><td>{data.stats.total}</td></tr>
+          <tr><th>읽지 않음</th><td>{data.stats.unread}</td></tr>
+          <tr><th>가장 많은 좋아요</th><td>{data.stats.topSubject}</td></tr>
         </tbody>
       </table>
       <p className="dim">
-        When you move to this page, the layout's loader and this page's loader run <strong>in parallel</strong> on the server
-        (<code>Promise.all</code>). There's no data waterfall. Click a mail in the left list.
+        이 페이지로 이동하면 레이아웃 loader와 이 페이지의 loader가 서버에서 <strong>병렬로</strong> 실행된다
+        (<code>Promise.all</code>). 데이터 워터폴이 없다. 왼쪽 목록에서 메일을 클릭해보자.
       </p>
     </div>
   )
@@ -65,11 +65,11 @@ export function InboxIndex({ data }) {
 export function MailDetail({ data, params }) {
   const { navigate } = useRouter()
   const mail = data.mail
-  if (!mail) return <p>Mail {params.id} does not exist.</p>
+  if (!mail) return <p>{params.id}번 메일이 없습니다.</p>
   return (
     <div>
       <h2>{mail.subject}</h2>
-      <p className="dim">From {mail.from} · params.id = {params.id}</p>
+      <p className="dim">보낸 사람 {mail.from} · params.id = {params.id}</p>
       <p>{mail.body}</p>
       {/*
         핵심: mutation이 <form method="post">로 일어난다.
@@ -84,8 +84,8 @@ export function MailDetail({ data, params }) {
           navigate(`/l3/mail/${mail.id}`, { method: 'POST' })
         }}
       >
-        <button>👍 Like {mail.likes}</button>{' '}
-        <span className="dim">Try disabling JS — the form still works</span>
+        <button>👍 좋아요 {mail.likes}</button>{' '}
+        <span className="dim">JS를 비활성화해도 — 폼은 그대로 동작한다</span>
       </form>
     </div>
   )

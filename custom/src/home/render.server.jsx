@@ -4,28 +4,28 @@ import { chromeTop, chromeBottom } from '../shared/chrome.js'
 const LEVELS = [
   {
     href: '/l1',
-    title: 'L1 - basic SSR',
-    desc: 'The most basic form. renderToString turns the React tree into a string, and hydrateRoot attaches events on the client side. We look at why SSR is needed and the structure of hydration.',
+    title: 'L1 - 기본 SSR',
+    desc: '가장 기본적인 형태. renderToString이 React 트리를 문자열로 만들고, hydrateRoot가 클라이언트에서 이벤트를 연결한다. SSR이 왜 필요한지, 하이드레이션의 구조를 본다.',
   },
   {
     href: '/l2',
-    title: 'L2 - streaming SSR',
-    desc: 'renderToPipeableStream + Suspense. It sends the shell first and then inserts slow content in later. This is the technique that solves the problem of the entire response being blocked in L1.',
+    title: 'L2 - 스트리밍 SSR',
+    desc: 'renderToPipeableStream + Suspense. 셸을 먼저 보내고 느린 콘텐츠는 나중에 끼워 넣는다. L1에서 전체 응답이 막히는 문제를 푸는 기법이다.',
   },
   {
     href: '/l3',
-    title: 'L3 - Remix style (router + loader/action)',
-    desc: 'A model that places the router at the center. Loaders fetch data in parallel, mutations happen through actions, and everything starts from an HTML form. After hydration, it becomes an SPA.',
+    title: 'L3 - Remix 스타일 (라우터 + loader/action)',
+    desc: '라우터를 중심에 두는 모델. loader가 데이터를 병렬로 가져오고, mutation은 action으로 일어나며, 모든 것은 HTML 폼에서 시작한다. 하이드레이션 이후에는 SPA가 된다.',
   },
   {
     href: '/l4',
-    title: 'L4 - Server Components (the Next direction)',
-    desc: 'The server sends not HTML but the component tree itself (flight protocol). Server components send 0 bytes of JS, and client components are hydrated on the client side. We implement a mini RSC.',
+    title: 'L4 - 서버 컴포넌트 (Next 방향)',
+    desc: '서버가 HTML이 아니라 컴포넌트 트리 자체(flight 프로토콜)를 보낸다. 서버 컴포넌트는 JS를 0바이트 보내고, 클라이언트 컴포넌트만 클라이언트에서 하이드레이션된다. 미니 RSC를 구현했다.',
   },
   {
     href: '/l5',
-    title: 'L5 - Server Functions (the TanStack Start direction)',
-    desc: 'The complete opposite direction. All components live on the client side, and the server exposes only functions (RPC). SSR becomes an optional optimization rather than the center of architecture.',
+    title: 'L5 - 서버 함수 (TanStack Start 방향)',
+    desc: '정반대 방향. 컴포넌트는 전부 클라이언트에 두고, 서버는 함수만 노출한다(RPC). SSR은 아키텍처의 중심이 아니라 선택적 최적화가 된다.',
   },
 ]
 
@@ -34,21 +34,21 @@ function Home() {
     <section>
       <h1>React SSR Lab</h1>
       <p className="sub">
-        React 19-based learning project that implements renderers step by step from basic to advanced. Inspired by Next.js, Remix(React Router), and TanStack Start.
+        React 19 기반으로 렌더러를 기초부터 심화까지 단계별로 구현한 학습 프로젝트. Next.js, Remix(React Router), TanStack Start에서 영감을 받았다.
       </p>
 
       <div className="card">
-        <h2>The rendering spectrum</h2>
+        <h2>렌더링 스펙트럼</h2>
         <pre className="wire">
-{`CSR (pure client rendering)
- --> static SSR (renderToString: HTML generation)
- --> streaming SSR (Suspense + sending shell first)
- --> SSR + data protocol (Remix: loader/action)
- --> server-first components (Next RSC: the server owns components)
- --> client-first + server functions (TanStack Start: RPC)`}
+{`CSR (순수 클라이언트 렌더링)
+ --> 정적 SSR (renderToString: HTML 생성)
+ --> 스트리밍 SSR (Suspense + 셸 먼저 전송)
+ --> SSR + 데이터 프로토콜 (Remix: loader/action)
+ --> 서버 우선 컴포넌트 (Next RSC: 서버가 컴포넌트를 소유)
+ --> 클라이언트 우선 + 서버 함수 (TanStack Start: RPC)`}
         </pre>
         <p className="dim">
-          As you move right, the question of "where do components execute and where does the boundary lie" changes. In L1~L3 the component code exists in both places, and in L4 the component itself is split between server/client, while in L5 the function is split.
+          오른쪽으로 갈수록 "컴포넌트가 어디서 실행되고, 경계는 어디인가"라는 질문의 답이 달라진다. L1~L3은 컴포넌트 코드가 양쪽에 다 있고, L4는 컴포넌트 자체가 서버/클라이언트로 나뉘며, L5는 함수가 나뉜다.
         </p>
       </div>
 
@@ -62,11 +62,11 @@ function Home() {
       ))}
 
       <div className="card">
-        <h2>How to explore</h2>
+        <h2>탐색 방법</h2>
         <ul>
-          <li>On each page, open the page source and compare what's inside the HTML with what JS does later.</li>
-          <li>In L2, watch the Network tab and you can see the HTML being split up and streaming in.</li>
-          <li>In L4, we provide a raw view of the flight payload (component tree protocol).</li>
+          <li>각 페이지에서 페이지 소스를 열어, HTML 안에 무엇이 들어 있는지와 JS가 나중에 무엇을 하는지 비교해보자.</li>
+          <li>L2에서는 네트워크 탭을 보면 HTML이 나뉘어 스트리밍되는 것을 확인할 수 있다.</li>
+          <li>L4에서는 flight 페이로드(컴포넌트 트리 프로토콜) 원본 보기를 제공한다.</li>
         </ul>
       </div>
     </section>
@@ -76,6 +76,6 @@ function Home() {
 export function renderHome({ res }) {
   res.setHeader('content-type', 'text/html; charset=utf-8')
   res.end(
-    chromeTop({ title: 'home', current: '/' }) + renderToString(<Home />) + chromeBottom()
+    chromeTop({ title: '허브', current: '/' }) + renderToString(<Home />) + chromeBottom()
   )
 }

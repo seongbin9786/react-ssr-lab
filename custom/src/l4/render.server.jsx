@@ -18,7 +18,7 @@ export function renderL4({ res, url }) {
   // 여기서는 프로토콜 자체가 잘 보이도록 fetch 방식으로 단순화했다)
   res.setHeader('content-type', 'text/html; charset=utf-8')
   res.end(
-    chromeTop({ title: 'L4 Server Components', current: '/l4' }) +
+    chromeTop({ title: 'L4 서버 컴포넌트', current: '/l4' }) +
       `<div class="skeleton">RSC 페이로드를 기다리는 중...</div>` +
       chromeBottom(`<script src="/static/l4.js"></script>`)
   )

@@ -11,13 +11,13 @@ function PostList({ db }) {
   const { posts, fetchedAt } = use(db.postsPromise)
   return (
     <div className="card">
-      <h2>Posts (0.4 seconds)</h2>
+      <h2>게시글 (0.4초)</h2>
       <ul>
         {posts.map((p) => (
           <li key={p.id}>{p.title}</li>
         ))}
       </ul>
-      <p className="dim">fetched at {fetchedAt}</p>
+      <p className="dim">가져온 시각: {fetchedAt}</p>
     </div>
   )
 }
@@ -26,7 +26,7 @@ function CommentList({ db }) {
   const { comments, fetchedAt } = use(db.commentsPromise)
   return (
     <div className="card">
-      <h2>Comments (2.5 seconds)</h2>
+      <h2>댓글 (2.5초)</h2>
       <ul>
         {comments.map((c) => (
           <li key={c.id}>
@@ -34,7 +34,7 @@ function CommentList({ db }) {
           </li>
         ))}
       </ul>
-      <p className="dim">fetched at {fetchedAt} — this chunk was streamed in later</p>
+      <p className="dim">가져온 시각: {fetchedAt} — 이 청크는 나중에 스트리밍으로 도착했다</p>
     </div>
   )
 }
@@ -42,47 +42,47 @@ function CommentList({ db }) {
 export function App({ db }) {
   return (
     <section>
-      <h1>L2 - Streaming SSR</h1>
+      <h1>L2 - 스트리밍 SSR</h1>
       <p className="sub">
-        <code>renderToPipeableStream</code> + <code>Suspense</code> — send the shell first, and slow chunks get inserted later via inline scripts.
+        <code>renderToPipeableStream</code> + <code>Suspense</code> — 셸을 먼저 보내고, 느린 청크는 나중에 인라인 스크립트로 끼워 넣는다.
       </p>
 
       <div className="card">
         <p>
-          The HTML for this page did not arrive all at once. The header, nav, and skeleton below were sent <strong>immediately</strong>,
-          and after that, as the data finished loading, the real content was streamed in at <strong>400ms</strong> and <strong>2.5 seconds</strong> respectively and swapped into place.
-          Check the timing in the Network tab (View Source will also show the <code>$RC</code> inline script and <code>&lt;template&gt;</code> structure).
+          이 페이지의 HTML은 한 번에 도착하지 않았다. 헤더, 내비게이션, 아래 스켈레톤은 <strong>즉시</strong> 전송됐고,
+          그 후 데이터 로딩이 끝나면서 실제 콘텐츠가 각각 <strong>400ms</strong>와 <strong>2.5초</strong>에 스트리밍으로 도착해 제자리로 교체됐다.
+          네트워크 탭에서 타이밍을 확인해보자 (페이지 소스를 보면 <code>$RC</code> 인라인 스크립트와 <code>&lt;template&gt;</code> 구조도 보인다).
         </p>
       </div>
 
       <div className="grid2">
-        <Suspense fallback={<Skeleton label="Posts" />}>
+        <Suspense fallback={<Skeleton label="게시글" />}>
           <PostList db={db} />
         </Suspense>
-        <Suspense fallback={<Skeleton label="Comments" />}>
+        <Suspense fallback={<Skeleton label="댓글" />}>
           <CommentList db={db} />
         </Suspense>
       </div>
 
       <div className="card">
-        <h2>How it works</h2>
+        <h2>동작 원리</h2>
         <ol>
           <li>
-            <code>renderToPipeableStream</code> starts rendering, and the moment the <strong>shell</strong> (the parts outside Suspense and all the fallbacks) is ready,
-            it fires <code>onShellReady</code>. The server starts piping the response right then. TTFB is no longer hostage to the slowest data.
+            <code>renderToPipeableStream</code>은 렌더링을 시작하고, <strong>셸</strong>(Suspense 바깥 부분과 모든 fallback)이 준비되는 즉시
+            <code>onShellReady</code>를 발생시킨다. 서버는 그 즉시 응답을 파이프하기 시작한다. TTFB는 더 이상 가장 느린 데이터에 볼모로 잡히지 않는다.
           </li>
           <li>
-            Suspended boundaries are sent as <code>&lt;div hidden id="S:1"&gt;</code> placeholders. When a Promise resolves, React flushes the real content,
-            and a small inline script (<code>$RC</code>) swaps the placeholder and the hidden content in the DOM. Since this is plain HTML+script, it works without any client JS.
+            일시 중단된 경계는 <code>&lt;div hidden id="S:1"&gt;</code> 플레이스홀더로 전송된다. Promise가 해결되면 React가 실제 콘텐츠를 플러시하고,
+            작은 인라인 스크립트(<code>$RC</code>)가 DOM에서 플레이스홀더와 숨겨진 콘텐츠를 교체한다. 순수 HTML+스크립트라 클라이언트 JS 없이도 동작한다.
           </li>
           <li>
-            The client hydrates against the completed DOM. The serialized data inside <code>window.__DATA__</code> is already-resolved Promises,
-            so <code>use()</code> reads them synchronously and hydration matches without any refetch.
+            클라이언트는 완성된 DOM에 대해 하이드레이션한다. <code>window.__DATA__</code> 안의 직렬화된 데이터는 이미 해결된 Promise라서,
+            <code>use()</code>가 이를 동기적으로 읽고 재fetch 없이 하이드레이션이 일치한다.
           </li>
         </ol>
         <p className="dim">
-          Note: <code>onShellReady</code> = "send as soon as it's displayable", <code>onAllReady</code> = "everything complete" (used for crawlers or pre-rendering).
-          In edge/fetch-based runtimes you use <code>renderToReadableStream</code>, which is the same idea with Web Streams instead of Node streams.
+          참고: <code>onShellReady</code> = "표시할 수 있는 만큼 즉시 보내기", <code>onAllReady</code> = "전부 완성 후 보내기"(크롤러나 사전 렌더링용).
+          edge/fetch 기반 런타임에서는 Node 스트림 대신 Web Streams를 쓰는 <code>renderToReadableStream</code>을 사용한다.
         </p>
       </div>
     </section>

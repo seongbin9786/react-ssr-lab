@@ -39,12 +39,12 @@ footer{max-width:940px;margin:0 auto;padding:0 20px 40px;color:var(--dim);font-s
 `.trim()
 
 const LEVELS = [
-  ['/', 'home'],
-  ['/l1', 'L1 basic SSR'],
-  ['/l2', 'L2 streaming'],
-  ['/l3', 'L3 Remix style'],
-  ['/l4', 'L4 Server Components'],
-  ['/l5', 'L5 Server Functions'],
+  ['/', '허브'],
+  ['/l1', 'L1 기본 SSR'],
+  ['/l2', 'L2 스트리밍'],
+  ['/l3', 'L3 Remix 스타일'],
+  ['/l4', 'L4 서버 컴포넌트'],
+  ['/l5', 'L5 서버 함수'],
 ]
 
 export function chromeTop({ title, current }) {
@@ -67,7 +67,7 @@ export function chromeTop({ title, current }) {
 
 export function chromeBottom(boot = '') {
   return `</main>
-<footer>React 19 SSR learning project - try checking the page source of each level (cmd+option+u).</footer>
+<footer>React 19 SSR 학습 프로젝트 - 각 레벨의 페이지 소스를 확인해보세요 (cmd+option+u).</footer>
 ${boot}
 </body>
 </html>`

@@ -13,7 +13,7 @@ export function renderL1({ res }) {
 
   res.setHeader('content-type', 'text/html; charset=utf-8')
   res.end(
-    chromeTop({ title: 'L1 basic SSR', current: '/l1' }) +
+    chromeTop({ title: 'L1 기본 SSR', current: '/l1' }) +
       appHtml +
       chromeBottom(
         // props를 HTML에 실어 보내야 클라이언트가 "같은 트리"를 다시 렌더링할 수 있다
