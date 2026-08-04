@@ -1,0 +1,11 @@
+node_modules/
+dist/
+build/
+.next/
+.react-router/
+.vite/
+.turbo/
+*.tsbuildinfo
+next-env.d.ts
+routeTree.gen.ts
+.DS_Store

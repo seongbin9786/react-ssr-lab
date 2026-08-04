@@ -1,0 +1,21 @@
+{
+  "name": "example-next",
+  "private": true,
+  "description": "Next.js App Router — RSC + 스트리밍 + Server Action 공식 구현",
+  "scripts": {
+    "dev": "next dev -p 3104",
+    "build": "next build",
+    "start": "next start -p 3104"
+  },
+  "dependencies": {
+    "next": "^15.3.0",
+    "react": "^19.0.0",
+    "react-dom": "^19.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.0.0",
+    "@types/react": "^19.0.0",
+    "@types/react-dom": "^19.0.0",
+    "typescript": "^5.5.0"
+  }
+}

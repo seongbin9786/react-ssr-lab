@@ -1,0 +1,21 @@
+{
+  "name": "react-ssr-lab",
+  "private": true,
+  "type": "module",
+  "description": "React 19로 구현하는 SSR 렌더러 학습 프로젝트: renderToString부터 스트리밍, RSC, 서버 함수 RPC까지",
+  "scripts": {
+    "build": "node build.mjs",
+    "serve": "node dist/server.mjs",
+    "start": "npm run build && npm run serve",
+    "dev": "node build.mjs --watch",
+    "test": "node scripts/test.mjs"
+  },
+  "dependencies": {
+    "react": "^19.2.8",
+    "react-dom": "^19.2.8"
+  },
+  "devDependencies": {
+    "esbuild": "^0.28.1",
+    "jsdom": "^24.1.3"
+  }
+}

@@ -1,0 +1,18 @@
+:root{color-scheme:dark;--bg:#0b0e14;--panel:#131824;--border:#242c3d;--text:#e8ebf2;--dim:#98a2b6;--accent:#82aaff;--good:#9ece6a}
+*{box-sizing:border-box}
+body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 -apple-system,BlinkMacSystemFont,"Apple SD Gothic Neo",sans-serif}
+main{max-width:860px;margin:0 auto;padding:36px 20px 80px}
+h1{font-size:26px;margin:0 0 4px}h2{font-size:17px;margin:0 0 10px}
+.sub{color:var(--dim);margin:0 0 22px}
+.card{background:var(--panel);border:1px solid var(--border);border-radius:14px;padding:18px 20px;margin:14px 0}
+button{font:inherit;background:#1c2436;color:var(--text);border:1px solid var(--border);border-radius:10px;padding:8px 14px;cursor:pointer}
+button:hover{border-color:var(--accent)}
+button.primary{background:var(--accent);border-color:var(--accent);color:#0b0e14;font-weight:600}
+input{font:inherit;background:#0e1219;border:1px solid var(--border);border-radius:10px;padding:8px 12px;color:var(--text)}
+code{background:#1a2130;border:1px solid var(--border);border-radius:6px;padding:1px 6px;font-size:13px;font-family:ui-monospace,Menlo,monospace}
+ul{padding-left:20px}li{margin:4px 0}
+.dim{color:var(--dim)}
+.todolist{list-style:none;padding:0}
+.todolist li{display:flex;gap:8px;align-items:center;padding:6px 0}
+.todolist li span{flex:1}
+.todolist li span.done{text-decoration:line-through;color:var(--dim)}
