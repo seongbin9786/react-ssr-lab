@@ -12,6 +12,22 @@ reactssr/
     └── tanstack-start/   TanStack Start (서버 함수)
 ```
 
+## 내부 원리 해설 시리즈 (`docs/`)
+
+SSR·Fiber·스트리밍·하이드레이션·RSC의 내부 동작을 React 본체 수준까지 뜯어 설명하는 글 시리즈.
+벤치마킹한 외부 해설글 모음과 각 글에서 가져온 것도 함께 정리했다.
+
+| # | 글 | 핵심 질문 |
+|---|---|---|
+| 01 | [renderToString은 어떻게 동작하는가](docs/01-render-to-string.md) | 함수 한 번으로 HTML 문자열이 나오는 과정 |
+| 02 | [Fiber: 모든 렌더러의 뼈대](docs/02-fiber.md) | 트리를 어떤 자료구조로, 어떤 순서로 처리하는가 |
+| 03 | [스트리밍 SSR 해부](docs/03-streaming-ssr.md) | `$RC`/`<template>`/hidden div는 무엇인가 |
+| 04 | [하이드레이션](docs/04-hydration.md) | hydrateRoot는 DOM을 다시 만들지 않는다 |
+| 05 | [Suspense와 use()의 내부](docs/05-suspense-and-use.md) | Promise를 던진다는 것의 물리적 의미 |
+| 06 | [Flight 프로토콜](docs/06-flight.md) | 컴포넌트 트리가 네트워크를 건너는 법 |
+
+시리즈 안내: [docs/README.md](docs/README.md) · 벤치마크 모음: [docs/benchmarks.md](docs/benchmarks.md)
+
 ## 렌더링 스펙트럼
 
 ```
