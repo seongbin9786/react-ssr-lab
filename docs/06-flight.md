@@ -94,7 +94,7 @@ function resolveElement(element) {
 // 2행 (~1.2초) — async 서버 컴포넌트 PostFeed의 실행 결과
 {"id":1,"value":{"$element":"div","props":{"className":"card","children":[...]}}}
 
-// 3행 (~2.4초) — async 서버 컴포넌트 TeamStatus의 실행 결과
+// 3행 (~2.4초) — async 서버 컴포넌트 TeamStats의 실행 결과
 {"id":2,"value":{"$element":"div","props":{...}}}
 ```
 

@@ -72,8 +72,8 @@ export function App({ db }) {
             <code>onShellReady</code>를 발생시킨다. 서버는 그 즉시 응답을 파이프하기 시작한다. TTFB는 더 이상 가장 느린 데이터에 볼모로 잡히지 않는다.
           </li>
           <li>
-            일시 중단된 경계는 <code>&lt;div hidden id="S:1"&gt;</code> 플레이스홀더로 전송된다. Promise가 해결되면 React가 실제 콘텐츠를 플러시하고,
-            작은 인라인 스크립트(<code>$RC</code>)가 DOM에서 플레이스홀더와 숨겨진 콘텐츠를 교체한다. 순수 HTML+스크립트라 클라이언트 JS 없이도 동작한다.
+            일시 중단된 경계는 fallback과 <code>&lt;template id="B:0"&gt;</code> 표식으로 먼저 전송된다. Promise가 해결되면 React가 실제 콘텐츠를
+            <code>&lt;div hidden id="S:0"&gt;</code>에 담아 플러시하고, 작은 인라인 스크립트(<code>$RC</code>)가 DOM에서 fallback을 그 콘텐츠로 교체한다. 순수 HTML+스크립트라 클라이언트 JS 없이도 동작한다.
           </li>
           <li>
             클라이언트는 완성된 DOM에 대해 하이드레이션한다. <code>window.__DATA__</code> 안의 직렬화된 데이터는 이미 해결된 Promise라서,

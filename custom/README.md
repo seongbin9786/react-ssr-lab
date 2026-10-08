@@ -110,8 +110,8 @@ function CommentList({ db }) {
 
 동작 순서(실측 타이밍, `npm start` 후 L2 페이지의 Network 탭에서 재현 가능):
 
-1. **~35ms** — 셸 도착: 레이아웃 + `<Suspense fallback>` 자리의 스켈레톤 + `<div hidden id="S:1">` 같은 플레이스홀더.
-2. **~400ms** — 포스트 데이터 해결 → React가 HTML 청크를 플러시. 내장된 `<script>($RC)</script>`가 플레이스홀더를 실제 콘텐츠로 교체.
+1. **~35ms** — 셸 도착: 레이아웃 + `<Suspense fallback>` 자리의 스켈레톤. 각 경계는 `<!--$?--><template id="B:0"></template>` 표식으로 위치만 남긴다.
+2. **~400ms** — 포스트 데이터 해결 → React가 `<div hidden id="S:0">` 안에 실제 콘텐츠를 담은 청크를 플러시. 함께 온 `<script>$RC("B:0","S:0")</script>`가 fallback을 실제 콘텐츠로 교체.
 3. **~2.5s** — 댓글 청크 도착, 같은 방식으로 교체. 그제서야 응답 종료.
 
 핵심 메커니즘:
@@ -167,8 +167,11 @@ React의 실제 RSC wire 포맷("React Flight")을 단순화해 NDJSON 행으로
 
 ```jsonc
 {"id":0,"value":{"$element":"div","props":{"children":[
-    {"$element":"h2","props":{"children":"헤더 ..."}},
-    {"$client":"Counter","props":{}},        // 클라이언트 컴포넌트 참조
+    {"$element":"div","props":{"className":"card","children":[
+        {"$element":"h2","props":{"children":"헤더 ..."}},
+        ...,
+        {"$client":"Counter","props":{}}     // 클라이언트 컴포넌트 참조
+    ]}},
     {"$lazy":1}, {"$lazy":2}                 // 아직 스트리밍 중인 청크
 ]}}}
 {"id":1,"value":{...포스트 목록...}}          // ~1.2초 후 도착
@@ -261,7 +264,7 @@ const result = await fn(args ?? {})   // 인자가 경계를 건너고, 결과�
 
 ## 이 프로젝트에서 쓴 React 19 기능
 
-- `renderToString`, `renderToPipeableStream`(`onShellReady`/`onAllReady`/`onError`) — 서버 렌더러 2종.
+- `renderToString`, `renderToPipeableStream`(`onShellReady`/`onShellError`/`onError`) — 서버 렌더러 2종.
 - `hydrateRoot` — 하이드레이션. React 19에서도 SSR 앱의 클라이언트 진입점은 그대로 `hydrateRoot`다.
 - `use(promise)` — Promise를 렌더 중에 읽는 훅. L2에서는 서버 스트리밍과 클라이언트 하이드레이션을 같은 코드로 연결하고, L4에서는 flight 행 도착을 Suspense로 기다리는 데 썼다.
 - Server Components와의 관계: 실제 RSC는 별도 번들 조건(`react-server`)에서 동작하는 별개의 React 서브셋이다. 이 데모는 그 wire 포맷과 스트리밍 의미를 일반 React로 재현한 것이다.
