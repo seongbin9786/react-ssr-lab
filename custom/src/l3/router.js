@@ -15,9 +15,14 @@ export function matchRoute(pathname) {
     const m = pathname.match(re)
     if (m) {
       const params = {}
-      keys.forEach((key, i) => {
-        params[key] = decodeURIComponent(m[i + 1])
-      })
+      try {
+        keys.forEach((key, i) => {
+          params[key] = decodeURIComponent(m[i + 1])
+        })
+      } catch {
+        // /l3/mail/%E0 같은 잘못된 퍼센트 인코딩은 URIError를 던진다 → 매칭 실패(404)로 처리
+        return null
+      }
       return { route, params }
     }
   }
