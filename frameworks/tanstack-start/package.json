@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vite --port 3102",
     "build": "vite build",
-    "start": "node dist/server/server.js"
+    "start": "PORT=3102 node .output/server/index.mjs"
   },
   "dependencies": {
     "@tanstack/react-router": "1.131.50",

@@ -5,6 +5,8 @@ build/
 .react-router/
 .vite/
 .turbo/
+.output/
+.nitro/
 *.tsbuildinfo
 next-env.d.ts
 routeTree.gen.ts

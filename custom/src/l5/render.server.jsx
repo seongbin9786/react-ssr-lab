@@ -7,8 +7,17 @@ import { readBody, sendJson } from '../shared/http.js'
 export async function renderL5({ req, res, url }) {
   // RPC 엔드포인트: 클라이언트가 서버 함수를 이름으로 호출한다
   if (req.method === 'POST' && url.pathname === '/l5/__rpc') {
-    const { name, args } = JSON.parse(await readBody(req))
-    const fn = serverFunctions[name]
+    let body
+    try {
+      body = JSON.parse(await readBody(req))
+    } catch {
+      sendJson(res, 400, { ok: false, error: '요청 본문이 올바른 JSON이 아니다' })
+      return
+    }
+    const { name, args } = body ?? {}
+    // 레지스트리에 직접 등록된 이름만 허용한다.
+    // serverFunctions[name]만 보면 'constructor', 'toString' 같은 프로토타입 멤버까지 호출된다.
+    const fn = Object.hasOwn(serverFunctions, name) ? serverFunctions[name] : null
     if (!fn) {
       sendJson(res, 404, { ok: false, error: `서버 함수 없음: ${name}` })
       return

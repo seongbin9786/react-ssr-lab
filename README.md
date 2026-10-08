@@ -3,7 +3,7 @@
 React 19 기반 SSR을 **직접 구현**하고, 같은 개념이 **실제 프레임워크**에서 어떻게 구현되어 있는지를 나란히 보는 학습 프로젝트.
 
 ```
-reactssr/
+react-ssr-lab/
 ├── custom/        ← 프레임워크 없이 React API만으로 렌더러 5종을 직접 구현 (원리 학습)
 └── frameworks/    ← 같은 개념을 쓰는 실제 프레임워크 예제 4종
     ├── vite-ssr/         Vite 미들웨어 모드 SSR (프레임워크들의 뼈대)
@@ -130,7 +130,7 @@ custom L5의 공식 구현:
 - 첫 화면만 SSR이고, 이후 상태는 클라이언트 라우터가 소유 — SSR이 옵션이라는 정체성
 
 > 참고: `@tanstack/react-start`는 API가 빠르게 바뀌는 중이라 이 예제는 **1.131.50에 고정**했다.
-> 최신 버전에서는 `Meta`/`Scripts`가 `@tanstack/react-router`의 `HeadContent`/`Scripts`로 이동하는 식의 변경이 있다.
+> 이 버전에서 문서 head와 스크립트는 `@tanstack/react-router`의 `HeadContent`/`Scripts`로 렌더링한다(`app/routes/__root.tsx`).
 
 ## 서로 다른 두 방향: Next vs TanStack Start
 

@@ -29,9 +29,11 @@ Fiber 렌더 순서              서버 HTML (DOM)
 begin <section>          ──▶  <section>
   begin <h1>             ──▶    <h1>L1 - 기본 SSR</h1>
   begin <p>              ──▶    <p class="sub">...</p>
-  text "이 HTML은 "       ──▶    text node
-  <!-- --> 경계 표식      ──▶    <!-- -->        ← 01편에서 본 그 주석
-  begin <code>           ──▶    <code>...</code>
+  ...
+  begin <button>         ──▶    <button>
+    text "카운트: "       ──▶      text node
+    <!-- --> 경계 표식    ──▶      <!-- -->      ← 01편에서 본 그 주석
+    text "0"             ──▶      text node
 ```
 
 01편에서 본 `<!-- -->` 빈 주석의 용도가 여기 있다. 서버가 텍스트와 표현식을 이어 붙인 자리는 클라이언트에서도 똑같은 개수의 텍스트 노드로 쪼개져야 하는데, 주석 표식이 그 경계를 알려준다.
