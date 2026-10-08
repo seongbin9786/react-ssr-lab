@@ -32,15 +32,30 @@ async function createServer() {
     ? await import(path.resolve(root, 'dist/server/entry-server.js'))
     : null
 
-  return http.createServer(async (req, res) => {
+  // 개발 모드에서는 Vite의 connect 미들웨어가 먼저 요청을 받는다.
+  // /src/entry-client.tsx, /@vite/client, /@react-refresh 같은 클라이언트 모듈은 Vite가 직접 응답하고,
+  // Vite가 처리하지 않은 요청만 next()로 넘어와 아래 SSR 핸들러가 HTML을 렌더링한다.
+  // (이 연결이 없으면 브라우저가 요청한 클라이언트 모듈까지 SSR 핸들러가 받아서 하이드레이션이 일어나지 않는다)
+  return http.createServer((req, res) => {
+    if (vite) vite.middlewares(req, res, () => handleSsr(req, res))
+    else handleSsr(req, res)
+  })
+
+  async function handleSsr(req, res) {
     try {
       const url = new URL(req.url, 'http://localhost')
 
       // 운영 모드: 빌드된 클라이언트 자산 서빙
       if (isProd && url.pathname.startsWith('/assets/')) {
         const file = path.resolve(root, 'dist/client', url.pathname.slice(1))
+        const data = await fs.readFile(file).catch(() => null)
+        if (!data) {
+          res.statusCode = 404
+          res.end('not found')
+          return
+        }
         res.setHeader('content-type', 'text/javascript; charset=utf-8')
-        res.end(await fs.readFile(file))
+        res.end(data)
         return
       }
 
@@ -78,7 +93,7 @@ async function createServer() {
       if (!res.headersSent) res.statusCode = 500
       res.end(String(err?.stack ?? err))
     }
-  })
+  }
 }
 
 createServer().then((server) => {
