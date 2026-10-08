@@ -40,8 +40,12 @@ export function renderFlightToStream(element, { write, close }) {
   function resolveAsync(id, promise) {
     pending++
     promise
+      // 이행된 값의 직렬화(resolveModel)도 throw할 수 있다(예: props에 함수).
+      // 같은 then의 두 번째 인자는 첫 번째 콜백의 throw를 잡지 못하므로,
+      // 직렬화를 앞 단계 then으로 분리해 그 에러도 $error 행으로 내려보낸다.
+      .then((value) => resolveModel(value))
       .then(
-        (value) => emit({ id, value: resolveModel(value) }),
+        (model) => emit({ id, value: model }),
         (error) => emit({ id, value: { $error: String(error?.message ?? error) } })
       )
       .finally(() => {
